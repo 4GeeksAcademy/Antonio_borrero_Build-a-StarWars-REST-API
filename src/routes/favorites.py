@@ -4,9 +4,18 @@ from models.Users import Favorites
 
 api = Blueprint("api/users", __name__)
 
-@api.route("/<int:user_id>/favorites", methods=["GET"])
-def get_favorites(user_id):
-    all_favorites = Favorites.query.all()
-    all_favorites = list(map(lambda x: x.serialize(), all_favorites))
+@api.route("/<int:user_id>/favorites/planet/<int:planet_id>", methods=["POST"])
+def post_planets_favorites(user_id, planet_id):
+    new_favorite_planet = Favorites()
+    new_favorite_planet.planet_id = planet_id
+    new_favorite_planet.user_id = user_id
+    db.session.add(new_favorite_planet)
+    db.session.commit()
+    return jsonify({"favorite planets": new_favorite_planet.serialize()})
 
-    return jsonify({"all favorites": all_favorites})
+@api.route("/<int:user_id>/favorites/people/<int:people_id>", methods=["POST"])
+def post_planets_favorites(user_id, people_id):
+    body = request.get_json()
+    new_favorite_people = Favorites()
+    print(new_favorite_people)
+    return jsonify({"favorite people": new_favorite_people})
