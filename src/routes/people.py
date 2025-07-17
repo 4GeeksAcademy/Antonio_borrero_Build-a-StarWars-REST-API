@@ -17,3 +17,14 @@ def get_single_people(people_id):
     if single_people is None:
         return jsonify({"error": f"people {people_id} not found"})
     return jsonify({"people": single_people.serialize()})
+
+@api.route("/new_people", methods=["POST"])
+def new_people():
+    body = request.get_json()
+    new_people = People()
+    new_people.name = body["name"]
+
+    db.session.add(new_people)
+    db.session.commit()
+
+    return jsonify({"usuario": new_people.serialize()})

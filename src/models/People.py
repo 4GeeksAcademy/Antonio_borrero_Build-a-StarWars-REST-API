@@ -13,10 +13,7 @@ class People(db.Model):
     gender: Mapped[str] = mapped_column(String(10), nullable=True)
     homeworld: Mapped[str] = mapped_column(String(20), nullable=True)
     birth_year: Mapped[str] = mapped_column(String(10), nullable=True)
-    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
-
-    favorites: Mapped[List["Favorites"]] = relationship("Favorites", secondary="people_favorites", back_populates="people")
-
+    
     def serialize(self):
         return {
             "id": self.id,
